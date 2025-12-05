@@ -1,50 +1,38 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Advent of Code Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Solve-First Development
+Every solution prioritizes correctness and clarity of algorithm logic. We solve the puzzle efficiently, then refactor for code quality. Optimizations must not obscure the core logic.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Language Flexibility
+Each puzzle may be solved in the language most suited to the problem domain. Mixed languages across years are encouraged. No single tech stack is mandated; choose the best tool for each challenge.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Test-Driven Verification
+Solutions MUST include test cases with provided examples and custom edge cases. Tests validate both correctness and edge-case handling before submission. Failing tests block completion.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Clear Documentation
+Each solution includes a brief explanation of the approach, key insights, and complexity analysis. README or docstrings clarify algorithmic intent without over-commenting obvious code.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Reusable Utilities
+Common parsing, grid operations, and algorithmic helpers are extracted into shared utility modules once they appear in multiple puzzles. These utilities MUST be independently testable and documented.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Project Organization
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+**Structure**: Solutions organized by year → day. Each day contains solution code, test cases, and example input files. Utility modules live in a shared `lib/` or similar structure.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Performance**: Solutions should complete in <5 seconds for provided input. Optimizations for large inputs are encouraged if they maintain code clarity.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Dependencies**: Minimize external dependencies. Standard library solutions are preferred; third-party libraries must be justified and documented in a requirements/lock file.
+
+## Development Workflow
+
+- **Solution submission**: Code must pass all test cases before marking as complete.
+- **Code review**: Peer review of novel or complex algorithms is encouraged.
+- **Version control**: Each year/day is committed atomically with solution, tests, and notes.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution is the authority for solution quality and project organization. All PRs and solutions must align with the five core principles. Amendments require explicit documentation and community consensus.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-05 | **Last Amended**: 2025-12-05
