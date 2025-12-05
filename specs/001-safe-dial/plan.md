@@ -1,3 +1,41 @@
+# Implementation Plan: Safe Dial (001-safe-dial)
+
+## Overview
+
+Implement Day 1 solution in a modular, test-first approach. Keep utilities reusable for future days.
+
+## Tasks (updated for Part Two)
+
+1. Setup project (package.json, tsconfig, jest) — completed
+2. Add core utilities: `math-utils` (normalize, rotate) and `file-reader` — completed
+3. Implement `RotationParser` and tests — completed
+4. Implement `DialSimulator` (Part 1) and tests — completed
+5. Implement `solution.ts` orchestration and CLI routing — completed
+6. Part Two changes:
+   - Add `PasswordMethod` type and accept an options parameter in `solvePuzzle()`
+   - Extend `DialSimulator.applyRotations()` to support `method: 'all'` (count intermediate zero hits)
+   - Add unit tests for intermediate hits (README example and `R1000` fixture)
+   - Add CLI flags `--method` and `--part` to select counting mode
+   - Update docs and fixtures
+
+## Implementation Notes
+
+- For `method: 'all'` the simulator uses a helper to compute how many times the dial passes `0` during a rotation:
+  - Let `pos` be the starting position (0..99), `distance` the number of clicks, and `direction` L/R.
+  - Solve for k in 1..distance where the dial at click k equals 0 via modular arithmetic.
+  - Use arithmetic formula to compute count of k values without per-click simulation.
+
+## Testing Strategy
+
+- Unit tests for math-utils and parser (already present).
+- Simulator tests for Part 1 and Part 2 (added).
+- Integration tests for `solvePuzzle()` for both methods.
+
+## Deliverables
+
+- Source: `src/2025/day-01/{types,parser,dial-simulator,solution}`
+- Tests: `tests/unit/*` (including `dial-simulator.part2.test.ts`)
+- Docs: `SOLUTION.md`, `Day 1/README.md`, `specs/001-safe-dial/*`
 # Implementation Plan: Safe Dial Password Cracker
 
 **Branch**: `001-safe-dial` | **Date**: 2025-12-05 | **Spec**: [spec.md](spec.md)

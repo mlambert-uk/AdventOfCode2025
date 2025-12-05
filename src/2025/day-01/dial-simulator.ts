@@ -70,20 +70,58 @@ export class DialSimulator {
   }
 
   /**
+   * Count how many times the dial will point at 0 during a rotation (including clicks during movement)
+   *
+   * This counts clicks that cause the dial to land on 0 while moving from `pos` in `direction`
+   * for `distance` clicks. It does not count the starting position.
+   */
+  private countZerosDuringRotation(pos: number, direction: Rotation['direction'], distance: number): number {
+    if (distance <= 0) return 0;
+
+    // For right rotations, the k (1..distance) that makes (pos + k) % 100 === 0
+    // For left rotations, the k that makes (pos - k) % 100 === 0
+    // Compute the residue r in [0,99] that k must be congruent to.
+    const r = direction === 'R' ? ((100 - (pos % 100)) % 100) : (pos % 100);
+
+    if (r === 0) {
+      // k values: 100, 200, ... <= distance
+      return Math.floor(distance / 100);
+    }
+
+    if (r > distance) return 0;
+
+    return 1 + Math.floor((distance - r) / 100);
+  }
+
+  /**
    * Apply a sequence of rotations
    * 
    * Applies each rotation in order and returns final result.
-   * 
+   * Supports an optional `method` option:
+   *  - 'end' (default): count only landings at the end of each rotation
+   *  - 'all': count any click that causes the dial to point at 0 during rotations
+   *
    * @param rotations - Array of rotation instructions
+   * @param options - Optional method selection
    * @returns SolutionResult with password, history, and total rotations
-   * 
-   * @example
-   * const result = simulator.applyRotations(rotations);
-   * console.log(`Password: ${result.password}`);
    */
-  public applyRotations(rotations: Rotation[]): SolutionResult {
+  public applyRotations(rotations: Rotation[], options?: { method?: 'end' | 'all' }): SolutionResult {
+    const method = options?.method ?? 'end';
+
     for (const rotation of rotations) {
-      this.applyRotation(rotation);
+      if (method === 'all') {
+        // Count intermediate zero hits (during the click sequence)
+        const hits = this.countZerosDuringRotation(this.state.currentPosition, rotation.direction, rotation.distance);
+        this.state.zeroCount += hits;
+
+        // Then perform the rotation to update position/history as before
+        const newPosition = rotate(this.state.currentPosition, rotation.direction, rotation.distance);
+        this.state.currentPosition = newPosition;
+        this.state.history.push(newPosition);
+        // Note: if the final position is 0, countZerosDuringRotation already included it when appropriate
+      } else {
+        this.applyRotation(rotation);
+      }
     }
 
     return {

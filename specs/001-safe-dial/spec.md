@@ -1,3 +1,31 @@
+# Spec: Safe Dial (001-safe-dial)
+
+## Summary
+
+This feature implements Advent of Code 2025 Day 1: Safe Dial Password Cracker. The puzzle has two parts:
+
+- Part 1: Count the number of times the dial points at `0` at the end of each rotation.
+- Part 2: Using method `0x434C49434B`, count the number of times the dial points at `0` during any click of a rotation (including intermediate clicks).
+
+## Part Two - Requirements
+
+- Name: Password method `0x434C49434B` (aka "count-all").
+- Behavior: For each rotation instruction (direction + distance), count every click that causes the dial to point at `0`. Include multiple passes over `0` if the distance exceeds 100.
+- Example: With the sample rotations, Part 2 password is `6` (3 end-of-rotation landings + 3 intermediate hits).
+- Large distances: Rotations like `R1000` from starting position 50 pass `0` 10 times; count each hit.
+
+## Acceptance Criteria
+
+1. Simulator supports two counting methods: `end` (default) and `all`.
+2. `solvePuzzle()` accepts an optional `method` parameter and returns the corresponding `password`.
+3. CLI exposes `--method <end|all>` and shortcut `--part <1|2>` to select counting behavior.
+4. Unit tests cover intermediate hits including `R1000` and the README example.
+5. Documentation (`SOLUTION.md`, `Day 1/README.md`, and `spec.md`) updated with Part Two explanation and CLI usage.
+
+## Risks & Notes
+
+- Counting intermediate hits must be performed arithmetically for performance (O(1) per rotation) — do not simulate each click when distance is large.
+- The dial history should still contain positions after each rotation; intermediate hits are counted but need not be recorded individually.
 # Feature Specification: Safe Dial Password Cracker
 
 **Feature Branch**: `001-safe-dial`  

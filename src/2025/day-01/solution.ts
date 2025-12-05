@@ -6,7 +6,7 @@
 
 import { RotationParser } from './parser';
 import { DialSimulator } from './dial-simulator';
-import { SolutionResult } from './types';
+import { SolutionResult, PasswordMethod } from './types';
 
 /**
  * Solve the safe dial puzzle for a given input file
@@ -19,7 +19,7 @@ import { SolutionResult } from './types';
  * const result = await solvePuzzle('./input.txt');
  * console.log(`Password: ${result.password}`);
  */
-export async function solvePuzzle(inputFilePath: string): Promise<SolutionResult> {
+export async function solvePuzzle(inputFilePath: string, options?: { method?: PasswordMethod }): Promise<SolutionResult> {
   // Parse input file
   const parser = new RotationParser();
   const parsedInput = await parser.parseFile(inputFilePath);
@@ -34,9 +34,10 @@ export async function solvePuzzle(inputFilePath: string): Promise<SolutionResult
     }
   }
 
-  // Simulate rotations
+  // Simulate rotations with optional method (default: 'end')
   const simulator = new DialSimulator();
-  const result = simulator.applyRotations(parsedInput.rotations);
+  const method = options?.method ?? 'end';
+  const result = simulator.applyRotations(parsedInput.rotations, { method });
 
   return result;
 }

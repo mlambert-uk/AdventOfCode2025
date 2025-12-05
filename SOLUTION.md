@@ -70,6 +70,27 @@ npm run solve -- day-01 ./tests/fixtures/example.txt
 # Final Position: 32
 ```
 
+### Part Two (method 0x434C49434B)
+
+Part Two changes the counting method: count every time the dial points at `0` during any click of a rotation, not only when a rotation finishes. This is exposed in the CLI and program API via a `method` option.
+
+Notes:
+- The method identifier `0x434C49434B` corresponds to counting all zero hits during rotations (we support this as method `all`).
+- For large distances (e.g. `R1000`) the dial may pass `0` multiple times; `R1000` from `50` hits `0` exactly 10 times before returning to `50`.
+
+CLI examples:
+```bash
+# Part 1 (default, count only end-of-rotation landings)
+npm run solve -- day-01 ./tests/fixtures/example.txt
+
+# Part 2 (count every time a click causes the dial to point at 0)
+npm run solve -- day-01 ./tests/fixtures/part2-sample.txt --method all
+# or using --part shortcut:
+npm run solve -- day-01 ./tests/fixtures/part2-sample.txt --part 2
+```
+
+For the README example the Part 2 password is `6` (3 landings at the end + 3 during rotations).
+
 ### Using the API
 ```typescript
 import { solvePuzzle, formatOutput } from './src/2025/day-01/solution';

@@ -54,3 +54,10 @@ export interface SolutionResult {
   /** Total number of rotations applied */
   totalRotations: number;
 }
+
+/**
+ * Password calculation method selector
+ * - 'end': count only final positions after each rotation (Part 1)
+ * - 'all': count any click that causes the dial to point at 0 during rotations (Part 2)
+ */
+export type PasswordMethod = 'end' | 'all';

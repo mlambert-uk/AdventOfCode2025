@@ -36,7 +36,22 @@ async function main(): Promise<void> {
       process.exit(1);
     }
 
+    // Gather input file and optional flags
     const inputFile = args[1];
+    // Parse optional flags: --method <end|all> or --part <1|2>
+    const methodIndex = args.indexOf('--method');
+    let method: 'end' | 'all' | undefined = undefined;
+    if (methodIndex !== -1 && args.length > methodIndex + 1) {
+      const val = args[methodIndex + 1];
+      if (val === 'all' || val === 'end') method = val;
+    }
+
+    const partIndex = args.indexOf('--part');
+    if (partIndex !== -1 && args.length > partIndex + 1) {
+      const val = args[partIndex + 1];
+      if (val === '2') method = 'all';
+      if (val === '1') method = 'end';
+    }
 
     try {
       // Verify file exists
@@ -45,8 +60,8 @@ async function main(): Promise<void> {
         process.exit(1);
       }
 
-      // Solve puzzle
-      const result = await solvePuzzle(inputFile);
+      // Solve puzzle with selected method
+      const result = await solvePuzzle(inputFile, { method });
 
       // Output result
       console.log(formatOutput(result));
