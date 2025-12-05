@@ -216,3 +216,41 @@ Configuration:
 ✅ Code coverage: 85% (lines), 100% (functions)
 ✅ Runs in <1 second for example input
 ✅ Modular design allows easy extension for future days
+
+## Day 2 — Gift Shop
+
+Summary
+- Part 1: Sum all IDs in the input ranges that are formed by repeating a digit sequence exactly twice (e.g. `11`, `6464`, `123123`).
+- Part 2: Sum all IDs in the input ranges that are formed by repeating any non-empty digit sequence at least twice (e.g. `12341234`, `121212`, `1111111`).
+
+Algorithm
+- Parse the single line of comma-separated ranges into [start,end] pairs.
+- For Part 1: enumerate repeating blocks of length `k` and construct numbers `s + s` (string repeat twice) for all `s` of length `k`, summing those that fall within each range.
+- For Part 2: for each block length `k` and repetition count `m >= 2`, construct `s.repeat(m)` where `s` is the block, dedupe using a Set, and sum values within the range.
+- The implementation avoids per-digit simulation and generates candidate numbers arithmetically; this is fast for typical input sizes.
+
+Complexity
+- Part 1: roughly O(R * sum_k 10^k) across ranges, but `k` is bounded by the number length (practical and small for puzzle inputs).
+- Part 2: similar enumeration with an additional repetition loop; still efficient for puzzle-sized inputs.
+
+CLI & Usage
+- Run Part 1 (default):
+```bash
+npm run solve -- day-02 'Day 2/input.txt'
+```
+- Run Part 2:
+```bash
+npm run solve -- day-02 'Day 2/input.txt' --part 2
+```
+
+Programmatic API
+```ts
+import { solveDay2FromFile } from './src/2025/day-02/solution';
+const res1 = await solveDay2FromFile('Day 2/input.txt');
+const res2 = await solveDay2FromFile('Day 2/input.txt', { part: 2 });
+console.log(res1.totalInvalidSum, res2.totalInvalidSum);
+```
+
+Notes
+- The solver uses JavaScript `Number`; if you have extremely large IDs (beyond 2^53) we can convert to `BigInt`.
+- Tests for Day 2 are under `tests/unit/day2.*.test.ts` and fixtures in `Day 2/`.
